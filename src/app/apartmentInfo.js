@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { FaBath, FaBed, FaMapMarkerAlt, FaUserFriends } from "react-icons/fa";
 
 export default function ApartmentInfo() {
+  console.log('ApartmentInfo component rendered');
   const { apartmentId } = useParams();
   const [apartment, setApartment] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,20 @@ export default function ApartmentInfo() {
         ).map(video => decodeURIComponent(video))
       };
 
+      console.log('=== VIDEO DEBUG START ===');
+      console.log('Raw videos from API:', response.data.media?.videos);
+      console.log('Processed videos:', processedMedia.videos);
+      console.log('Videos length:', processedMedia.videos.length);
+      console.log('Will show video?', processedMedia.videos.length > 0);
+      
+      // Make it super visible
+      if (processedMedia.videos.length > 0) {
+        alert(`Found ${processedMedia.videos.length} video(s): ${processedMedia.videos[0]}`);
+      } else {
+        alert('No videos found in response');
+      }
+      console.log('=== VIDEO DEBUG END ===');
+
       setApartment({
         ...response.data,
         media: processedMedia
@@ -48,7 +63,10 @@ export default function ApartmentInfo() {
 
       // Set initial media type if videos exist
       if (processedMedia.videos.length > 0) {
+        console.log('Setting media type to video');
         setMediaType('video');
+      } else {
+        console.log('No videos found, keeping media type as image');
       }
     } catch (error) {
       console.error("Error fetching apartment details:", error);
@@ -64,8 +82,11 @@ export default function ApartmentInfo() {
       const decodedUrl = decodeURIComponent(url);
       new URL(decodedUrl);
       const videoExtensions = ['.mp4', '.mov', '.webm', '.ogg'];
-      return videoExtensions.some(ext => decodedUrl.toLowerCase().endsWith(ext));
-    } catch {
+      const isValid = videoExtensions.some(ext => decodedUrl.toLowerCase().endsWith(ext));
+      console.log('Checking video URL:', decodedUrl, 'Valid:', isValid);
+      return isValid;
+    } catch (error) {
+      console.log('Invalid video URL:', url, error);
       return false;
     }
   };
@@ -75,6 +96,7 @@ export default function ApartmentInfo() {
     if (decodedUrl.endsWith('.mp4')) return 'video/mp4';
     if (decodedUrl.endsWith('.webm')) return 'video/webm';
     if (decodedUrl.endsWith('.ogg')) return 'video/ogg';
+    if (decodedUrl.endsWith('.mov')) return 'video/quicktime'; // Set MIME type for .mov files
     return 'video/mp4'; // default
   };
 
@@ -122,14 +144,17 @@ export default function ApartmentInfo() {
                   playsInline
                   muted
                   preload="metadata"
-                  onError={() => {
-                    console.log("Video failed, falling back to images");
-                    setMediaType('image');
+                  onError={(e) => {
+                    console.log("Video failed to load:", apartment.media.videos[0], e);
+                    setMediaType('image');  // Fallback to image if video fails
                   }}
+                  onLoadStart={() => console.log("Video loading started")}
+                  onCanPlay={() => console.log("Video can play")}
+                  onLoadedData={() => console.log("Video data loaded")}
                 >
                   <source
                     src={apartment.media.videos[0]}
-                    type={getVideoType(apartment.media.videos[0])}
+                    type={getVideoType(apartment.media.videos[0])}  // Ensuring correct MIME type
                   />
                   Your browser does not support the video tag.
                 </video>
@@ -159,29 +184,33 @@ export default function ApartmentInfo() {
           {/* Media Thumbnails */}
           <div className="flex gap-3 mt-4 overflow-x-auto py-2">
             {/* Video Thumbnail */}
-            {apartment.media?.videos?.length > 0 && (
-              <button
-                onClick={() => setMediaType('video')}
-                className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden ${
-                  mediaType === 'video' ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'
-                }`}
-              >
-                <div className="relative w-full h-full bg-black">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg
-                      className="w-8 h-8 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                    </svg>
+            {apartment.media?.videos?.length > 0 && (() => {
+              return (
+                <button
+                  onClick={() => {
+                    setMediaType('video');
+                  }}
+                  className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden ${
+                    mediaType === 'video' ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <div className="relative w-full h-full bg-black">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <svg
+                        className="w-8 h-8 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                      </svg>
+                    </div>
+                    <span className="absolute bottom-1 left-1 text-white text-xs bg-black bg-opacity-50 px-1 rounded">
+                      Video
+                    </span>
                   </div>
-                  <span className="absolute bottom-1 left-1 text-white text-xs bg-black bg-opacity-50 px-1 rounded">
-                    Video
-                  </span>
-                </div>
-              </button>
-            )}
+                </button>
+              );
+            })()}
 
             {/* Image Thumbnails */}
             {apartment.media?.images?.map((image, index) => (
