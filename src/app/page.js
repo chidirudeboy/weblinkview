@@ -8,15 +8,15 @@ export default function Home() {
    <div className="m-2 sm:m-5 sm:ml-16 sm:mr-16 ml-6 mr-6">
 
     {/* APARTMENT INFO */}
-    {/* <ApartmentInfo /> */}
-    <h1>Hello world</h1>
+    <ApartmentInfo />
+    
    {/* MEDIA */}
-    {/* <Media /> */}
+    <Media />
 
     </div>
     
     {/* FOOTER */}
-    {/* <Footer /> */}
+    <Footer />
   </>
     
   );
