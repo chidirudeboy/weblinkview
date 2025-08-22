@@ -151,7 +151,7 @@ const ApartmentInfo = () => {
           <div className="flex gap-[3px] items-center">
             <FaMapMarkerAlt className="text-gray-400 mr-2 text-xl" />
             <span className="text-gray-400">
-              {apartment.address}, {apartment.city}, {apartment.state}
+             {apartment.city}, {apartment.state}
             </span>
           </div>
 
