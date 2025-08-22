@@ -144,7 +144,7 @@ const ApartmentInfo = () => {
     <div className="flex flex-col min-h-screen">
       <div className="flex-grow mx-4 md:mx-10">
         <div className="mt-6">
-          <h1 className="font-normal text-xl text-gray-400">
+          <h1 className="font-normal text-xl text-gray-400 bg-[#FEf8DE] inline-block px-3 py-1 rounded-lg mb-2">
             {apartment.apartmentName || "Apartment Name"}
           </h1>
 
