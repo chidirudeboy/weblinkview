@@ -132,7 +132,7 @@ export default function ApartmentInfo() {
         {/* Media Gallery */}
         <div className="my-8">
           {/* Main Media Display */}
-          <div className="relative w-full h-64 md:h-96 rounded-lg overflow-hidden bg-gray-100">
+          <div className="relative w-full h-64 md:h-96 rounded-lg overflow-hidden bg-gray-200">
             {mediaType === 'video' && apartment.media?.videos?.length > 0 ? (
               <div className="relative w-full h-full">
                 <video
