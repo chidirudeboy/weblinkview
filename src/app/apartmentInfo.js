@@ -175,7 +175,7 @@ export default function ApartmentInfo() {
                 }}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-200">
+              <div className="w-full h-full flex items-center justify-center bg-gray-300">
                 <p>No media available</p>
               </div>
             )}
