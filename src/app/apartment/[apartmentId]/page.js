@@ -264,7 +264,7 @@ const ApartmentInfo = () => {
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600 text-lg">Loading apartment details...</p>
-          <p className="text-gray-400 text-sm mt-2">Apartment ID: {apartmentId}</p>
+          {/* <p className="text-gray-400 text-sm mt-2">Apartment ID: {apartmentId}</p> */}
         </div>
       </div>
     );
@@ -679,32 +679,12 @@ const ApartmentInfo = () => {
                   key={index} 
                   className="flex items-center gap-2 sm:gap-3 bg-gray-50 hover:bg-blue-50 p-3 sm:p-4 rounded-lg sm:rounded-xl transition-colors duration-200 border border-gray-100 hover:border-blue-200"
                 >
-                  ✕
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Property Details */}
-          <div className="my-8">
-            <hr className="md:w-[600px] border-gray-200" />
-            <div className="grid grid-cols-2 sm:grid-cols-4 font-semibold md:my-4 my-2 p-2 gap-4 md:p-4 md:w-[600px]">
-              <span className="text-gray-800 dark:text-gray-300 flex gap-2 items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                <FaUserFriends className="text-gray-400 text-xl" /> 
-                <span className="text-sm">{apartment.guests} guests</span>
-              </span>
-              <span className="text-gray-800 dark:text-gray-200 flex gap-2 items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                <FaBed className="text-gray-400 text-xl" /> 
-                <span className="text-sm">{apartment.beds} bed{apartment.beds !== 1 ? 's' : ''}</span>
-              </span>
-              <span className="text-gray-800 dark:text-gray-200 flex gap-2 items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                <FaBed className="text-gray-400 text-xl" /> 
-                <span className="text-sm">{apartment.bedrooms} bedroom{apartment.bedrooms !== 1 ? 's' : ''}</span>
-              </span>
-              <span className="text-gray-800 dark:text-gray-200 flex gap-2 items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
-                <FaBath className="text-gray-400 text-xl" /> 
-                <span className="text-sm">{apartment.bathrooms} bathroom{apartment.bathrooms !== 1 ? 's' : ''}</span>
-              </span>
+                  <div className="flex-shrink-0">
+                    {amenityIcons[amenity] || <FaWifiIcon className="text-blue-600 text-lg sm:text-xl" />}
+                  </div>
+                  <span className="text-xs sm:text-sm md:text-base font-medium text-gray-700 break-words">{amenity}</span>
+                </div>
+              ))}
             </div>
             {parsedAmenities.length > 6 && (
               <button
