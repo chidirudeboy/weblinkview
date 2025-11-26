@@ -8,7 +8,7 @@ import {
   FaBath, FaBed, FaMapMarkerAlt, FaUserFriends, FaWifi, FaSwimmingPool, 
   FaParking, FaPlay, FaExpand, FaChevronLeft, FaChevronRight, FaImages,
   FaSnowflake, FaShieldAlt, FaTv, FaUtensils, FaDumbbell, FaCar,
-  FaWifi as FaWifiIcon, FaTimes, FaChevronDown
+  FaWifi as FaWifiIcon, FaTimes, FaChevronDown, FaHome
 } from "react-icons/fa";
 import { getApartmentDetails } from "../../../../endpoint";
 import Footer from "@/app/footer";
@@ -430,6 +430,28 @@ const ApartmentInfo = () => {
             {apartment.description || "No description available."}
           </p>
         </div>
+
+        {/* Property Type Section */}
+        {apartment.apartmentType && (
+          <div className="mb-8 sm:mb-10 md:mb-12">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 p-4 sm:p-5 bg-gray-50 rounded-xl border border-gray-200">
+              <div className="flex items-center gap-3">
+                <FaHome className="text-blue-600 text-lg sm:text-xl" />
+                <span className="text-sm sm:text-base text-gray-600 font-medium">Property Type</span>
+              </div>
+              <div className="flex flex-col items-end sm:items-end">
+                <span className="text-base sm:text-lg font-semibold text-gray-800 capitalize">
+                  {apartment.apartmentType === 'unit' ? 'Unit in Building' : 'Private Apartment'}
+                </span>
+                {apartment.apartmentType === 'unit' && apartment.numberOfUnits && (
+                  <span className="text-xs sm:text-sm text-gray-500 mt-1">
+                    {apartment.numberOfUnits} {apartment.numberOfUnits === 1 ? 'unit' : 'units'}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Media Gallery Section */}
         {totalMedia > 0 && (
