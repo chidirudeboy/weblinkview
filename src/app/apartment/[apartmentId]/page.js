@@ -298,7 +298,7 @@ const ApartmentInfo = () => {
           <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-8 shadow-lg">
             <div className="text-yellow-600 text-4xl mb-4">🔍</div>
             <p className="text-yellow-800 text-xl font-bold mb-3">Apartment Not Found</p>
-            <p className="text-gray-600 mb-4">The apartment you're looking for is not available.</p>
+            <p className="text-gray-600 mb-4">The apartment you&apos;re looking for is not available.</p>
             <p className="text-gray-500 text-sm">Apartment ID: {apartmentId}</p>
           </div>
         </div>
